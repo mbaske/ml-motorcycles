@@ -1,0 +1,111 @@
+﻿
+      #if _BDRFLAMBERT
+      void surf (Input i, inout SurfaceOutput o) 
+      #elif _USESPECULARWORKFLOW || _SPECULARFROMMETALLIC
+
+      inline half3 MicroSplatDiffuseAndSpecularFromMetallic (half3 albedo, half metallic, out half3 specColor, out half oneMinusReflectivity)
+      {
+          specColor = lerp (half3(0,0,0), albedo, metallic);
+          oneMinusReflectivity = (1-metallic);
+          return albedo * oneMinusReflectivity;
+      }
+
+      void surf (Input i, inout SurfaceOutputStandardSpecular o)
+      #else
+      void surf (Input i, inout SurfaceOutputStandard o) 
+      #endif
+      {
+         o.Normal = float3(0,0,1);
+         float3 worldNormalVertex = WorldNormalVector(i, float3(0,0,1));
+         #if UNITY_VERSION >= 201830 && !_TERRAINBLENDABLESHADER && !_MICROMESH && !_MICRODIGGERMESH && !_MICROVERTEXMESH && defined(UNITY_INSTANCING_ENABLED) && !defined(SHADER_API_D3D11_9X)
+            
+            float2 sampleCoords = (i.uv_Control0 / _TerrainHeightmapRecipSize.zw + 0.5f) * _TerrainHeightmapRecipSize.xy;
+            #if _TOONHARDEDGENORMAL
+               sampleCoords = ToonEdgeUV(sampleCoords);
+            #endif
+            float3 geomNormal = normalize(tex2D(_TerrainNormalmapTexture, sampleCoords).xyz * 2 - 1);
+            worldNormalVertex = geomNormal;
+         #elif _PERPIXNORMAL && !_MICROMESH
+            float2 perPixUV = i.uv_Control0;
+            #if _TOONHARDEDGENORMAL
+               perPixUV = ToonEdgeUV(perPixUV);
+            #endif
+            float3 geomNormal = (UnpackNormal(UNITY_SAMPLE_TEX2D_SAMPLER(_PerPixelNormal, _Diffuse, perPixUV))).xzy;
+            worldNormalVertex = geomNormal;
+         #endif    
+         
+         MicroSplatLayer l = SurfImpl(i, worldNormalVertex);
+
+         // always write to o.Normal to keep i.viewDir consistent
+         o.Normal = half3(0, 0, 1);
+
+         DoDebugOutput(l);
+
+         
+
+         o.Albedo = l.Albedo;
+         o.Normal = l.Normal;
+         o.Emission = l.Emission;
+         o.Alpha = l.Alpha;
+         #if _BDRFLAMBERT
+            o.Specular = l.Occlusion;
+            o.Gloss = l.Smoothness;
+         #elif _SPECULARFROMMETALLIC
+            o.Occlusion = l.Occlusion;
+            o.Smoothness = l.Smoothness;
+            o.Albedo = MicroSplatDiffuseAndSpecularFromMetallic(l.Albedo, l.Metallic, o.Specular, o.Smoothness);
+            o.Smoothness = 1-o.Smoothness;
+         #elif _USESPECULARWORKFLOW
+            o.Occlusion = l.Occlusion;
+            o.Smoothness = l.Smoothness;
+            o.Specular = l.Specular;
+         #else
+            o.Smoothness = l.Smoothness;
+            o.Metallic = l.Metallic;
+            o.Occlusion = l.Occlusion;
+         #endif
+         
+         
+         // per pixel normal
+         #if _PERPIXNORMAL || (UNITY_VERSION >= 201830 && !_TERRAINBLENDABLESHADER && !_MICROMESH && !_MICRODIGGERMESH && !_MICROVERTEXMESH && defined(UNITY_INSTANCING_ENABLED) && !defined(SHADER_API_D3D11_9X))
+            float3 geomTangent = normalize(cross(geomNormal, float3(0, 0, 1)));
+            float3 geomBitangent = normalize(cross(geomTangent, geomNormal));
+            o.Normal = o.Normal.x * geomTangent + o.Normal.y * geomBitangent + o.Normal.z * geomNormal;
+            o.Normal = o.Normal.xzy;
+         #elif _DEBUG_FINALNORMALTANGENT && !_MICROMESH && !_MICROVERTEXMESH
+            float3 geomNormal = worldNormalVertex;
+            float3 geomTangent = normalize(cross(geomNormal, float3(0, 0, 1)));
+            float3 geomBitangent = normalize(cross(geomTangent, geomNormal));
+            o.Normal = o.Normal.x * geomTangent + o.Normal.y * geomBitangent + o.Normal.z * geomNormal;
+            o.Normal = o.Normal.xzy;
+         #endif
+
+         #if _DEBUG_FINALNORMALTANGENT
+            o.Albedo = o.Normal * saturate(o.Albedo.z+1);
+            o.Normal = half3(0.5, 0.5, 1);
+            #if _BDRFLAMBERT
+               o.Specular = 0;
+               o.Gloss = 0;
+            #elif _SPECULARFROMMETALLIC
+               o.Occlusion = 1;
+               o.Smoothness = 0;
+            #elif _USESPECULARWORKFLOW
+               o.Occlusion = 1;
+               o.Smoothness = 0;
+               o.Specular = 0;
+            #else
+               o.Smoothness = 0;
+               o.Metallic = 0;
+               o.Occlusion = 1;
+            #endif
+         #endif
+      }
+
+      // for debug shaders
+      half4 LightingUnlit(SurfaceOutputStandard s, half3 lightDir, half atten)
+      {
+         return half4(s.Albedo, 1);
+      }
+
+
+   

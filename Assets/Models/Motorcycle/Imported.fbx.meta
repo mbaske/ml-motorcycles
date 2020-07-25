@@ -1,0 +1,344 @@
+fileFormatVersion: 2
+guid: bbe3dadf86244f74e854683872884b07
+ModelImporter:
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      74: -7994610669426103742
+    second: outer link surface|outer link surfaceAction
+  - first:
+      74: -7007613786738235066
+    second: inner link surface|outer link surfaceAction
+  - first:
+      74: 553004045638306234
+    second: kickstand|outer link surfaceAction
+  - first:
+      74: 3106551732890299961
+    second: head stem|outer link surfaceAction
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Aluminum
+    second: {fileID: 2100000, guid: 7933241431b336744a04100e3295f565, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Anodized
+    second: {fileID: 2100000, guid: f8b9bbc81dd1bbd40a4871ca87ce6526, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Banjo Bolt
+    second: {fileID: 2100000, guid: 73187b12af417594bb9201620fc8f5fe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black Dull Metal
+    second: {fileID: 2100000, guid: ce899d00c78ca7444920ab72d136cb0e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black Paint
+    second: {fileID: 2100000, guid: 99800102656e7864192c7bccfcfcd051, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black Plastic
+    second: {fileID: 2100000, guid: 5ab0b422fed203f4f8681a2f34b8cea7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black Plastic Shiny
+    second: {fileID: 2100000, guid: 9ee43994881f8b04b9a42698bcb8ddf5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black Powder Coating
+    second: {fileID: 2100000, guid: 1169d933ff74e944ab9ab3aa33c202a7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black Rubber
+    second: {fileID: 2100000, guid: 104206faf54fe8042a22b49542f21f08, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Brake Fluid
+    second: {fileID: 2100000, guid: 6570af21d79029345a653eb6380da8f1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Brake Pads
+    second: {fileID: 2100000, guid: 1f6797002dc7a564ea8635eadda21919, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Brass
+    second: {fileID: 2100000, guid: ae654e9f61e422445927cf25a7e61a9c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Caliper Spring
+    second: {fileID: 2100000, guid: 54ab1ac313cb541458496746c91731e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chain Inner Plates
+    second: {fileID: 2100000, guid: 8f550533f3d2f2343ab13143b3c8150d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chain Outer Plates
+    second: {fileID: 2100000, guid: effed9bb2622ba24aab833c60619f121, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chain Rollers
+    second: {fileID: 2100000, guid: 5d4cc450edb1c71439514d5071f11d7f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chrome
+    second: {fileID: 2100000, guid: eae109747eae24343ab687b911a08cf0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Clutch Cable
+    second: {fileID: 2100000, guid: 034b25bc76c554943be659d7ec8e6002, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Coolant Bottle
+    second: {fileID: 2100000, guid: 8a83a4ef40869784c9fea3bf36b6e374, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dark Metal
+    second: {fileID: 2100000, guid: 5d46fee4fa0301846bda8daedc21b5c4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dark Shiny
+    second: {fileID: 2100000, guid: 6fc9aefc8dfa3c4498579c313ff94f47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dull Metal
+    second: {fileID: 2100000, guid: fc7029fcaee816447b5d35376b58bf9f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Electrical
+    second: {fileID: 2100000, guid: dbee644eb752d2b4ab0e99316d801418, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Engine Bolt
+    second: {fileID: 2100000, guid: f99f1d30edbd03d4c821c742da27cfb5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Engine Bronze
+    second: {fileID: 2100000, guid: b0d913c6a34d73f4c90981cba9f2ed3f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Engine Gray Rough
+    second: {fileID: 2100000, guid: ea20dba74368f864ba427439d39d1651, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Engine Gray Smooth
+    second: {fileID: 2100000, guid: 0c9c480ab25504e4cb6d3a73cc3f7045, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Flat Black Paint
+    second: {fileID: 2100000, guid: d84292242332e5a43b7299a8a61b18f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Forks
+    second: {fileID: 2100000, guid: bff6f9f6128b7594fa3ea6185805c44c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass
+    second: {fileID: 2100000, guid: 48fcf4c7b41fcd24b8a526ad673ebd56, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Headers
+    second: {fileID: 2100000, guid: 16b6228385ef40b45a20e2da9f5d32c8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Headlight Casing
+    second: {fileID: 2100000, guid: 999b28bbc78e7c24daf05780ac4a67b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.004
+    second: {fileID: 2100000, guid: 650319c818b85c344b7f6ce720624d49, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Milky Plastic
+    second: {fileID: 2100000, guid: 61a76885c13f983478259554afeb8d42, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: 9fea1724f476eec4c99b0c228c53bb95, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Paint
+    second: {fileID: 2100000, guid: ef770543cce736c4cb8efacb748d80ee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Projector Source
+    second: {fileID: 2100000, guid: 85d4949691816ef44a7ba78ae5ef5c1e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Red Plastic Shiny
+    second: {fileID: 2100000, guid: 80f947af4914ed142ae76de231053814, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SMD LED
+    second: {fileID: 2100000, guid: 907138ce836c3a6408a3a422dd15749d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SMD LED Center
+    second: {fileID: 2100000, guid: 40a97229c80597a49bf4734ea3b52126, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Seat
+    second: {fileID: 2100000, guid: e4bec981529ae804e9e4016b60687e99, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Shiny Metal
+    second: {fileID: 2100000, guid: 75eb272bafa3238468a647a8fc136f82, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Shock Coil
+    second: {fileID: 2100000, guid: df60da1cd166fd042b8eb808ffda32fa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Throttle Cables
+    second: {fileID: 2100000, guid: 270fc063234e3f341b16f20e17f5d050, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tires
+    second: {fileID: 2100000, guid: bd3ab5a619745e44f8cb1ecaea76fb13, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wheels
+    second: {fileID: 2100000, guid: d6b2f03b4372a1044ade2531021d58f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White PCB
+    second: {fileID: 2100000, guid: d95b13e014f250541aa344bcab4b5b4d, type: 2}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1.1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 0
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 0.011
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

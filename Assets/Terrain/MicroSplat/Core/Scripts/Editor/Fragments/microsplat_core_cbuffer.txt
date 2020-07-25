@@ -1,0 +1,43 @@
+﻿
+
+      #if _MESHSUBARRAY
+         half4 _MeshSubArrayIndexes;
+      #endif
+
+
+      #if _USEEMISSIVEMETAL
+         half _EmissiveMult;
+      #endif
+
+      float4 _UVScale; // scale and offset
+
+      float2 _ToonTerrainSize;
+
+      half _Contrast;
+      
+      float3 _gGlitterLightDir;
+      float3 _gGlitterLightWorldPos;
+      half3 _gGlitterLightColor;
+
+       #if _VSSHADOWMAP
+         float4 gVSSunDirection;
+      #endif
+
+      #if _FORCELOCALSPACE && _PLANETVECTORS
+         float4x4 _PQSToLocal;
+      #endif
+
+      #if _ORIGINSHIFT
+         float4x4 _GlobalOriginMTX;
+      #endif
+
+      float4 _Control0_TexelSize;
+      float4 _CustomControl0_TexelSize;
+      float4 _PerPixelNormal_TexelSize;
+
+      #if _CONTROLNOISEUV || _GLOBALNOISEUV
+         float2 _NoiseUVParams;
+      #endif
+
+
+
