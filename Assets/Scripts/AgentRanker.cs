@@ -20,7 +20,7 @@ namespace MBaske
         private List<MotorcycleAgent> agents;
 
         [SerializeField, Tooltip("Penalty for being passed by other agents")]
-        private float loseRankPenalty = -1f;
+        private float loseRankPenalty = 1f;
         [SerializeField, Tooltip("Check agent order every [value] steps")]
         private int updateRankInterval = 10;
         [SerializeField, Tooltip("Reset all agents every [value] steps")]
@@ -106,7 +106,7 @@ namespace MBaske
                 if (penalize && agents[i].Rank > i)
                 {
                     // Debug.Log($"Rank change: {agents[i].name} {agents[i].Rank} -> {i}");
-                    agents[i].AddReward(loseRankPenalty);
+                    agents[i].AddReward(-loseRankPenalty);
                 }
                 agents[i].Rank = i;
             }
