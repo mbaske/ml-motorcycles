@@ -3,7 +3,7 @@
 <img src="banner.png" align="middle" width="1920"/>
 
 Reinforcement learning project made with Unity Machine Learning Agents.  
-Agents control throttle, steering, front and rear brakes. Observations include the motorcyle state (motor torque, brake torque, steering angle, velocity, angular velocity, inclination), its relative position on the road (distance to ground, forward angle, deviation from center) and a couple of raycasts for obstacle and opponent detection. Agents are rewarded for velocity in road direction and penalized for collisions, veering off the road and for being passed by other motorcyles. The included model was trained with PPO. Significant training progress didn't emerge until around 30M steps and I recommend retraining with at least 50M steps. Cumulative rewards and episode lengths might fluctuate quite a bit.  
+Agents control throttle, steering, front and rear brakes. Observations include the motorcyle state (motor torque, brake torque, steering angle, velocity, angular velocity, inclination), its relative position on the road (waypoints ahead, distance to ground, forward angle, deviation from center) and a couple of raycasts for obstacle and opponent detection. Agents are rewarded for velocity in road direction and penalized for collisions, veering off the road and for being passed by other motorcyles. The included policy was trained with PPO. Significant training progress didn't emerge until around 30M steps and I recommend retraining with at least 50M steps. Cumulative rewards and episode lengths might fluctuate quite a bit.  
   
 The project contains a few freely available code libs and 3D models:
   
