@@ -9667,7 +9667,7 @@ MonoBehaviour:
       Enabled: 1
       DetectionType: 2
       ShapeModifier: 3
-      Detectable: {fileID: -3669023585210675956, guid: 9e2de81f6e0a696439c88822acd7bff5,
+      Detectable: {fileID: -8845131437949811976, guid: 7049e2f1a1c64bd4487fd832f89a4c66,
         type: 3}
       m_AllObservations: []
       m_ObservationsList: []
