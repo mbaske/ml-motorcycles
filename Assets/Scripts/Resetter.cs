@@ -1,34 +1,34 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace MBaske
+namespace MBaske.Motorcycles
 {
     public class ResettableItem
     {
-        private Transform tf;
-        private Vector3 pos;
-        private Quaternion rot;
-        private Rigidbody rb;
+        private Transform m_Transform;
+        private Vector3 m_Position;
+        private Quaternion m_Rotation;
+        private Rigidbody m_Rigidbody;
 
         public ResettableItem(Transform tf)
         {
-            this.tf = tf;
-            pos = tf.localPosition;
-            rot = tf.localRotation;
-            rb = tf.GetComponent<Rigidbody>();
+            this.m_Transform = tf;
+            m_Position = tf.localPosition;
+            m_Rotation = tf.localRotation;
+            m_Rigidbody = tf.GetComponent<Rigidbody>();
         }
 
         public void Reset()
         {
-            if (rb != null)
+            if (m_Rigidbody != null)
             {
-                rb.velocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-                rb.Sleep();
+                m_Rigidbody.velocity = Vector3.zero;
+                m_Rigidbody.angularVelocity = Vector3.zero;
+                m_Rigidbody.Sleep();
             }
 
-            tf.localPosition = pos;
-            tf.localRotation = rot;
+            m_Transform.localPosition = m_Position;
+            m_Transform.localRotation = m_Rotation;
         }
     }
 

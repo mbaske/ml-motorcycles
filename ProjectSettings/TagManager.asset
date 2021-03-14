@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Agent
+  - Obstacle
+  - Terrain
+  - Waypoint
   layers:
   - Default
   - TransparentFX
@@ -11,14 +15,14 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - Bike
-  - Obstacle
-  - Road
   - Terrain
-  - RayTarget
-  - PostProcessing
+  - Road
+  - Agent
+  - Obstacle
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

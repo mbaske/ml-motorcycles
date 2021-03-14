@@ -1,200 +1,150 @@
-﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
+using UnityEngine;
+using KdTree.Math;
+using KdTree;
+using Random = UnityEngine.Random;
 
-namespace MBaske
+namespace MBaske.Motorcycles
 {
     public class Road : MonoBehaviour
     {
-        // Spacing and offset as frame indices.
-        public int AgentSpacing = 10;
-        public int InitAgentOffset = 0;
-        // Index2Deg for converting indices to degrees. 
-        // Used for comparing agent positions via Mathf.DeltaAngle
-        public float Index2Deg { get; private set; }
-        // Total length: 4764.735m
-        public Spline Spline { get; private set; }
+        private int m_NumAgents;
+        private IList<DriverAgent> m_Agents;
 
-        private struct VertexData
+        [Serializable]
+        private struct VertexList
         {
             public Vector3[] innerVertices;
             public Vector3[] outerVertices;
         }
+
         [SerializeField]
-        private TextAsset vertexData;
-        private Frame[] frames;
+        private TextAsset m_VertexData;
+        private VertexList m_VertexList;
+        private KdTree<float, Vector3> m_Tree;
+        private int m_Length;
 
-        // Traffic cones.
+        private readonly int m_MinSpacing = 100;
+        private readonly int m_MaxSpacing = 200;
+        private readonly int m_MinLength = 5;
+        private readonly int m_MaxLength = 20;
+
         [SerializeField]
-        private bool spawnCones;
+        private GameObject m_Roadblock;
         [SerializeField]
-        private GameObject conePrefab;
-        private Stack<GameObject> conePool;
-        private Transform cones;
+        private GameObject m_Barrel;
+        [SerializeField]
+        private GameObject m_Cone;
 
-        public void Initialize()
+
+        private void Awake()
         {
-            if (frames == null)
+            ReadVertexData();
+            m_NumAgents = FindObjectsOfType<DriverAgent>().Length;
+        }
+
+        public void OnEpisodeBegin(DriverAgent agent)
+        {
+            m_Agents ??= new List<DriverAgent>();
+            m_Agents.Add(agent);
+
+            Find(agent.transform.position, out Vector3 pos, out Vector3 fwd);
+            agent.transform.position = pos;
+            agent.transform.rotation = Quaternion.LookRotation(fwd);
+
+            if (m_Agents.Count == m_NumAgents)
             {
-                GenerateFrames();
-                if (spawnCones)
-                {
-                    InitCones();
-                    RandomizeCones();
-                }
+                m_Agents.Clear();
+                RandomizeObstacles();
             }
         }
 
-        public void OnReset()
+
+        public void Find(Vector3 nearby, out Vector3 pos, out Vector3 fwd)
         {
-            InitAgentOffset = Random.Range(0, frames.Length);
-            if (spawnCones)
+            var nodes = m_Tree.GetNearestNeighbours(new[] { nearby.x, nearby.y, nearby.z }, 1);
+            var p = nodes[0].Point;
+            pos = new Vector3(p[0], p[1], p[2]);
+            fwd = nodes[0].Value;
+        }
+
+        private void ReadVertexData()
+        {
+            m_VertexList = JsonUtility.FromJson<VertexList>(m_VertexData.text);
+            m_Length = m_VertexList.innerVertices.Length;
+            m_Tree = new KdTree<float, Vector3>(3, new FloatMath());
+
+            for (int i = 0; i < m_Length; i++)
             {
-                RandomizeCones();
+                Vector3 inner = m_VertexList.innerVertices[i];
+                Vector3 outer = m_VertexList.outerVertices[i];
+
+                Vector3 fwd = Vector3.Cross(inner - outer, Vector3.up).normalized;
+                Vector3 mid = (inner + outer) * 0.5f;
+
+                m_Tree.Add(new[] { mid.x, mid.y, mid.z }, fwd);
             }
         }
 
-        public Frame GetFrame(int index)
+        private void RandomizeObstacles()
         {
-            return frames[(index + frames.Length) % frames.Length];
-        }
+            ReadVertexData();
+            var container = CreateContainer("Obstacles");
 
-        public Frame UpdateInfo(IVehicleInfo info)
-        {
-            Spline.Point p = Spline.GetClosestPoint(info.Position, info.Frame.Index);
-            return UpdateInfo(info, frames[p.Index]);
-        }
-
-        public Frame UpdateInfo(IVehicleInfo info, Frame frame, float disqualifyThresh = 5)
-        {
-            info.Frame = frame;
-
-            // Normalized signed angle, 0 -> road direction, -1/+1 opp. direction.
-            info.Angle = Vector3.SignedAngle(
-                frame.Forward,
-                Vector3.ProjectOnPlane(info.Forward, frame.Up),
-                frame.Up);
-
-            // Normalized signed deviation from middle of the road.
-            Vector3 locPos = frame.LocalPosition(info.Position);
-            info.Deviation = locPos.x / frame.Bounds.extents.x;
-
-            info.IsOffRoad = Mathf.Abs(info.Deviation) > 1f;
-            // disqualifyThresh = 5 -> bike is allowed max. 10m (5 x road extent) from mid.
-            info.IsDisqualified = Mathf.Abs(info.Deviation) > disqualifyThresh;
-
-            return frame;
-        }
-
-        // public float GetZDistance(ISplineLocation locA, ISplineLocation locB)
-        // {
-        //     Frame frame = GetFrame(locA.Index);
-        //     // Partial z, first frame.
-        //     float distance = frame.Bounds.extents.z - frame.LocalPosition(locA.Position).z;
-        //     frame = GetFrame(locB.Index);
-        //     // Partial z, last frame.
-        //     distance += frame.Bounds.extents.z + frame.LocalPosition(locB.Position).z;
-        //     // Inbetween frames.
-        //     for (int i = locA.Index + 1; i < locB.Index; i++)
-        //     {
-        //         frame = GetFrame(locB.Index);
-        //         distance += frame.Bounds.size.z;
-        //     }
-        //     return distance;
-        // }
-
-        // Technically, we could generate all frames from the vertex data directly,
-        // because we have a lot of vertices (5000 per side) being close together (approx. 1m).
-        // Using splines would make more sense if control points were sparse and frame
-        // positions needed to be generated between them.
-
-        private void GenerateFrames()
-        {
-            Vector3 worldPos = transform.position;
-            VertexData vtxData = JsonUtility.FromJson<VertexData>(vertexData.text);
-            int n = vtxData.innerVertices.Length;
-            Index2Deg = 360f / (float)n;
-
-            Spline inner = new Spline();
-            Spline outer = new Spline();
-            for (int i = 0; i < n; i++)
-            {
-                inner.AddControlPoint(worldPos + vtxData.innerVertices[i]);
-                outer.AddControlPoint(worldPos + vtxData.outerVertices[i]);
-            }
-            inner.GenerateSplinePoints();
-            outer.GenerateSplinePoints();
-
-            Spline = new Spline();
-            for (int i = 0; i < n; i++)
-            {
-                Spline.AddControlPoint(
-                    (inner.GetPoint(i).Position + outer.GetPoint(i).Position) * 0.5f);
-            }
-            Spline.GenerateSplinePoints();
-
-            frames = new Frame[n];
-            for (int i = 0; i < n; i++)
-            {
-                frames[i] = Frame.FromLocation(Spline.GetPoint(i));
-            }
-            for (int i = 0; i < n; i++)
-            {
-                frames[i].Finalize(
-                    inner.GetPoint(i).Position - outer.GetPoint(i).Position,
-                    GetFrame(i + 1)
-                );
-            }
-        }
-
-        // TRAFFIC CONES
-
-        private void InitCones()
-        {
-            conePool = new Stack<GameObject>();
-            cones = new GameObject().transform;
-            cones.name = "Cones";
-            cones.parent = transform;
-        }
-
-        private void RandomizeCones()
-        {
-            for (int i = 0; i < cones.childCount; i++)
-            {
-                GameObject cone = cones.GetChild(i).gameObject;
-                cone.SetActive(false);
-                conePool.Push(cone);
-            }
-
-            int index = 0, spacing = 5, n = 0;
+            int i = m_MinSpacing;
             do
             {
-                index += Random.Range(100, 400);
-                int length = Random.Range(5, 10);
-                AddCones(index, length, spacing, ref n);
-                index += length * spacing;
+                var prefab = RandomBool(0.2f)
+                    ? m_Roadblock
+                    : (RandomBool(0.5f)
+                        ? m_Barrel
+                        : m_Cone);
+                bool side = RandomBool(0.5f);
+                bool block = prefab == m_Roadblock;
+
+                int n = Random.Range(m_MinLength, m_MaxLength + 1) * 2;
+                int min = block ? n / 2 : 0;
+                int max = block ? min + 1 : n;
+
+                for (int j = min; j < max; j += 2)
+                {
+                    Vector3 inner = m_VertexList.innerVertices[(i + j) % m_Length];
+                    Vector3 outer = m_VertexList.outerVertices[(i + j) % m_Length];
+                    Vector3 fwd = Vector3.Cross(inner - outer, Vector3.up);
+                    float t = j / (float)n * 0.5f + 0.05f; 
+                    Vector3 p = Vector3.Lerp(side ? inner : outer, side ? outer : inner, t);
+                    Instantiate(prefab, p, Quaternion.LookRotation(fwd), container);
+                }
+
+                i += Random.Range(m_MinSpacing, m_MaxSpacing + 1);
             }
-            while (index < 4000);
+            while (i < m_Length - m_MinSpacing);
         }
 
-        private void AddCones(int startIndex, int length, int spacing, ref int n)
+        private Transform CreateContainer(string name)
         {
-            length *= spacing;
-            float side = Mathf.Sign(Random.value - 0.5f);
-            for (int i = 0; i <= length; i += spacing)
+            var tf = transform.Find(name);
+            if (tf != null)
             {
-                var frame = GetFrame(startIndex + i);
-                // TBD difficulty
-                float t = 0.8f - Mathf.Sin(i / (float)length * Mathf.PI) * 1.1f;
-                GameObject cone = conePool.Count > 0
-                    ? conePool.Pop()
-                    : Instantiate(conePrefab, cones);
-                cone.SetActive(true);
-                cone.transform.position = frame.Position
-                    + t * frame.Right * frame.Bounds.extents.x * side
-                    + frame.Up * 0.5f;
-                cone.transform.rotation = Quaternion.Euler(0, Random.Range(-180, 180), 0);
-                n++;
+                if (Application.isPlaying)
+                {
+                    Destroy(tf.gameObject);
+                }
+                else
+                {
+                    DestroyImmediate(tf.gameObject);
+                }
             }
+
+            var container = new GameObject(name).transform;
+            container.parent = transform;
+            return container;
+        }
+
+        private static bool RandomBool(float probability = 0.5f)
+        {
+            return Random.value < probability;
         }
     }
 }

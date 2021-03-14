@@ -1,12 +1,11 @@
-## Motorcycles - [Video](https://youtu.be/omCJTvZ3ZMY)
+## Motorcycles
 
-<img src="banner.png" align="middle" width="1920"/>
+<img src="banner.png" align="middle" width="1920"/>  
 
-Reinforcement learning project made with Unity Machine Learning Agents.  
-Agents control throttle, steering, front and rear brakes. Observations include the motorcyle state (motor torque, brake torque, steering angle, velocity, angular velocity, inclination), its relative position on the road (waypoints ahead, distance to ground, forward angle, deviation from center) and a couple of raycasts for obstacle and opponent detection. Agents are rewarded for velocity in road direction and penalized for collisions, veering off the road and for being passed by other motorcyles. The included policy was trained with PPO. Significant training progress didn't emerge until around 30M steps and I recommend retraining with at least 50M steps. Cumulative rewards and episode lengths might fluctuate quite a bit.  
+Reinforcement learning project made with [Unity Machine Learning Agents Toolkit](https://github.com/Unity-Technologies/ml-agents). 
+Agents control throttle, steering, front and rear brakes. Observations include the motorcyle state (motor torque, brake torque, steering angle, velocity, angular velocity, inclination) and a front-facing [grid sensor](https://github.com/mbaske/grid-sensor). Agents are rewarded for speed and penalized for driving off road and collisions.
   
-The project contains a few freely available code libs and 3D models:
-  
+The project contains a few freely available code libs and 3D models:  
   
 Three Cylinder Naked Street Bike by Jamie Hamel-Smith  
 [https://sketchfab.com/3d-models/three-cylinder-naked-street-bike-0897a975845647919728095d117a6255](https://sketchfab.com/3d-models/three-cylinder-naked-street-bike-0897a975845647919728095d117a6255) 
@@ -19,3 +18,6 @@ MicroSplat Shader & Terrain by Jason Booth
   
 KSPWheel by [shadowmage45](https://github.com/shadowmage45)  
 [https://github.com/shadowmage45/KSPWheel](https://github.com/shadowmage45/KSPWheel)  
+
+KdTree by [Benji, codeandcats](https://github.com/codeandcats)  
+[https://github.com/codeandcats/KdTree](https://github.com/codeandcats/KdTree)  
