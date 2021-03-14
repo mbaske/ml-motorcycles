@@ -8126,10 +8126,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 653e94eade6260f4cb466d1545550f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1414145346}
-  distance: 5
-  camOffset: 5
-  lookOffset: 1
+  m_Target: {fileID: 1414145346}
+  m_Distance: 10
+  m_CamOffset: 5
+  m_LookOffset: 0
 --- !u!1 &489728828
 GameObject:
   m_ObjectHideFlags: 0
@@ -28111,7 +28111,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.75
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
